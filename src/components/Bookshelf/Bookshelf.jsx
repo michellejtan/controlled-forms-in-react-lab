@@ -12,8 +12,7 @@ const Bookshelf = () => {
     });
     const handleInputChange = (event) => {
         setNewBook({ ...newBook, [event.target.name]: event.target.value });
-        console.log([event.target.value]);
-    };
+        formHasMissingData    };
 
     const handleSubmit = (event) => {
         event.preventDefault(); //prevent the default behavior of submitting a form
@@ -22,6 +21,9 @@ const Bookshelf = () => {
         // Reset title and author state to clear our form inputs
         setNewBook({ title: '', author: '' });
     };
+
+    const formHasMissingData = !Object.values(newBook).every(Boolean);
+
 
     return (
         <>
@@ -44,13 +46,15 @@ const Bookshelf = () => {
                             value={newBook.author}
                             onChange={handleInputChange}
                         />
-                        <button type="submit">Add Book</button>
+                        <button type="submit" disabled={formHasMissingData}>
+                            Add Book
+                        </button>
                     </form>
                 </div>
 
                 <div className="bookCardsDiv">
-                    {books.map(book => (
-                        <div className='bookCard'>
+                    {books.map((book, index) => (
+                        <div key={index} className='bookCard'>
                             <h2>{book.title}</h2>
                             <p>{book.author}</p>
                         </div>
